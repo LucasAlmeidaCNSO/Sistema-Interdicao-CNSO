@@ -223,7 +223,13 @@
                     <option>IML</option>
                     <option>Bombeiros</option>
                     <option>Polícia Civil</option>
+                    <option>Outros</option>
                 </select>
+
+                <div id="at_sub_bloco" style="display:none">
+                    <label>Outros</label>
+                    <select id="at_sub"></select>
+                </div>
 
                 <button onclick="gerarAtualizacao()">Gerar Atualização</button>
             </div>
@@ -3968,7 +3974,19 @@
                 });
             }
         });
+            at_atendimento.addEventListener('change', () => {
+            if (at_atendimento.value === 'Outros') {
+                at_sub_bloco.style.display = 'block';
+                at_sub.innerHTML = '<option value="">-- Selecione --</option>';
 
+                at_outros.forEach(opcao => {
+                    at_sub.innerHTML += `<option>${opcao}</option>`;
+                });
+            } else {
+                at_sub_bloco.style.display = 'none';
+                at_sub.innerHTML = '';
+            }
+        });
         const SUB = {
             falha_humana: ["Atropelamento de animal", "Atropelamento de ciclista", "Atropelamento de motociclista",
                 "Atropelamento de pedestre", "Carreta em L", "Capotamento", "Choque", "Colisão", "Colisão frontal",
@@ -3977,7 +3995,14 @@
             fenomenos_natureza: ["Alagamento", "Atoleiro", "Deslizamento", "Destruição", "Erosão", "Queda de árvore ou rocha", "Rompimento ou ruptura", "Transbordo", "Trinca", "Outros"],
             incendio: ["Vegetação", "Veículo"]
         };
-
+        const at_outros = [
+            "Aguardando retorno da concessionária",
+            "Congestionamento",
+            "Interdição Permanece",
+            "Limite de fim de fila",
+            "Obra segue em andamento",
+            "Veículo segue parado"
+        ]
         manual_uf.addEventListener('input', () => {
             manual_uf.value = manual_uf.value.toUpperCase();
         });
@@ -4129,13 +4154,60 @@
                 " foi observada a chegada da Polícia Civil no local."
 
         };
+
+        const FRASE_ATUALIZACAO_OUTROS = {
+            "Veículo segue parado":
+                " foi identificado que o veículo segue parado no local, aguardando atendimento.",
+
+            "Aguardando retorno da concessionária":
+                " foi realizada a solicitação de atualização via WhatsApp para a concessionária, aguardamos o retorno.",
+            
+            "Congestionamento":
+                " foi identificado que a fila permanece, (XX) km de congestionamento.",
+
+            "Interdição Permanece":
+                " foi identificado que a interdição no local permanece.",
+
+            "Limite de fim de fila":
+                " foi identificado que a fila de veículos na praça de pedágio, permanece.\n X Cabines abertas\n X Cancelas abertas",
+
+            "Obra segue em andamento":
+                " foi identificado que a interdição devido a obra no local permanece."
+
+        };
         function gerarAtualizacao() {
 
-             if (!at_atendimento.value) {
+            if (!at_atendimento.value) {
                 escrever('Selecione o atendimento para a atualização.');
                 return;
             }
-            const frase = FRASE_ATENDIMENTO_ATUALIZACAO[at_atendimento.value] || '';
+
+            let frase = '';
+
+            // Caso NORMAL (não é Outros)
+            if (at_atendimento.value !== 'Outros') {
+                frase = FRASE_ATENDIMENTO_ATUALIZACAO[at_atendimento.value];
+
+                if (!frase) {
+                    escrever('Frase de atualização não configurada para este atendimento.');
+                    return;
+                }
+            }
+
+            // Caso OUTROS
+            else {
+                if (!at_sub.value) {
+                    escrever('Selecione a opção de "Outros" para a atualização.');
+                    return;
+                }
+
+                frase = FRASE_ATUALIZACAO_OUTROS[at_sub.value];
+
+                if (!frase) {
+                    escrever('Frase de atualização não configurada para esta opção.');
+                    return;
+                }
+            }
 
             escrever(
                 `Na evidência colhida às ${hora()},` + frase

@@ -3920,7 +3920,8 @@
             // Caso CFTV
             if (m_iden.value === 'cftv') {
                 const base = BASE_CFTV[ab_conc.value];
-                return base?.[ab_cftv.value] || null;
+                const cftvNormalizada = ab_cftv.value.replace(/^0+/, '');
+                return base?.[cftvNormalizada] ?? "";
             }
 
             // Caso manual (Site, WhatsApp, Twitter)
@@ -4018,11 +4019,32 @@
 
             const km = obterTrechoRodovia();
 
-            if (!ab_conc.value || !km || !ab_tipo.value || !m_iden.value) {
+            if (!ab_conc.value || !ab_tipo.value || !m_iden.value) {
                 escrever('Preencha corretamente os campos de abertura.');
                 return;
             }
+            // Caso CFTV selecionada
+            if (m_iden.value === 'cftv') {
 
+                if (ab_cftv.value === '') {
+                    escrever('Informe o número da CFTV.');
+                    return;
+                }
+
+                if (km === '') {
+                    escrever(
+                        'A CFTV informada não está cadastrada. ' +
+                        'Selecione outro meio de identificação para inserir os dados manualmente.'
+                    );
+                    return;
+                }
+            }
+
+            // Caso meio manual
+            if (m_iden.value !== 'cftv' && !km) {
+                escrever('Preencha corretamente os campos manuais de identificação da rodovia.');
+                return;
+            }
             const tipoTxt = ab_tipo.options[ab_tipo.selectedIndex].text;
 
             const detalhe = SUB[ab_tipo.value] && ab_sub.value

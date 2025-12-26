@@ -4131,7 +4131,10 @@
         };
         function gerarAtualizacao() {
 
-
+             if (!at_atendimento.value) {
+                escrever('Selecione o atendimento para a atualização.');
+                return;
+            }
             const frase = FRASE_ATENDIMENTO_ATUALIZACAO[at_atendimento.value] || '';
 
             escrever(

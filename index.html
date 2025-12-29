@@ -2706,26 +2706,26 @@
         ];
         const ECOVIAS_CAPIXABA = [
             "",
-            "BR101-ES-KM000+800",
-            "BR101-ES-KM006+100",
-            "BR101-ES-KM065+710",
-            "BR101-ES-KM085+800",
-            "BR101-ES-KM137+800",
-            "BR101-ES-KM171+700",
-            "BR101-ES-KM229+265",
-            "BR101-ES-KM242+000",
-            "BR101-ES-KM251+400",
-            "BR101-ES-KM255+180",
-            "BR101-ES-KM263+000",
-            "BR101-ES-KM266+300",
-            "BR101-ES-KM270+830",
-            "BR101-ES-KM296+200",
-            "BR101-ES-KM304+360",
-            "BR101-ES-KM320+800",
-            "BR101-ES-KM335+090",
-            "BR101-ES-KM393+000",
-            "BR101-ES-KM398+900",
-            "BR101-ES-KM452+000"
+            "BR101-ES-KM000+800",//CFTV-01
+            "BR101-ES-KM006+100",//CFTV-02
+            "BR101-ES-KM065+710",//CFTV-03
+            "BR101-ES-KM085+800",//CFTV-04
+            "BR101-ES-KM137+800",//CFTV-05
+            "BR101-ES-KM171+700",//CFTV-06
+            "BR101-ES-KM229+265",//CFTV-07
+            "BR101-ES-KM242+000",//CFTV-08
+            "BR101-ES-KM251+400",//CFTV-09
+            "BR101-ES-KM255+180",//CFTV-10
+            "BR101-ES-KM263+000",//CFTV-11
+            "BR101-ES-KM266+300",//CFTV-12
+            "BR101-ES-KM270+830",//CFTV-13
+            "BR101-ES-KM296+200",//CFTV-14
+            "BR101-ES-KM304+360",//CFTV-15
+            "BR101-ES-KM320+800",//CFTV-16
+            "BR101-ES-KM335+090",//CFTV-17
+            "BR101-ES-KM393+000",//CFTV-18
+            "BR101-ES-KM398+900",//CFTV-19
+            "BR101-ES-KM452+000"//CFTV-20
         ];
         const ECOVIAS_CERRADO = [];
         const ECOVIAS_MINAS_GOIAS = [
@@ -4067,7 +4067,7 @@
 
             const km = obterTrechoRodovia();
 
-            if (!ab_conc.value || !ab_tipo.value || !m_iden.value) {
+            if (!ab_conc.value || !ab_tipo.value || !m_iden.value || !ab_atendimento.value) {
                 escrever('Preencha corretamente os campos de abertura.');
                 return;
             }

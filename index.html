@@ -320,7 +320,13 @@
                         <option>IML</option>
                         <option>Bombeiros</option>
                         <option>Polícia Civil</option>
+                        <option>Outros</option>
                     </select>
+
+                    <div id="en_sub_bloco" style="display:none">
+                        <label>Outros</label>
+                        <select id="en_sub"></select>
+                    </div>
 
                     <button onclick="gerarEncerramento()">Gerar Encerramento</button>
                 </div>
@@ -4090,6 +4096,19 @@
                     at_sub.innerHTML = '';
                 }
             });
+            en_atendimento.addEventListener('change', () => {
+                if (en_atendimento.value === 'Outros') {
+                    en_sub_bloco.style.display = 'block';
+                    en_sub.innerHTML = '<option value="">-- Selecione --</option>';
+
+                    en_outros.forEach(opcao => {
+                        en_sub.innerHTML += `<option>${opcao}</option>`;
+                    });
+                } else {
+                    en_sub_bloco.style.display = 'none';
+                    en_sub.innerHTML = '';
+                }
+            });
             const SUB = {
                 falha_humana: ["Atropelamento de animal", "Atropelamento de ciclista", "Atropelamento de motociclista",
                     "Atropelamento de pedestre", "Carreta em L", "Capotamento", "Choque", "Colisão", "Colisão frontal",
@@ -4105,6 +4124,12 @@
                 "Limite de fim de fila",
                 "Obra segue em andamento",
                 "Veículo segue parado"
+            ]
+            const en_outros = [
+                "Congestionamento",
+                "Interdição Finalizada",
+                "Limite de fim de fila",
+                "Obra"
             ]
             manual_uf.addEventListener('input', () => {
                 manual_uf.value = manual_uf.value.toUpperCase();
@@ -4318,6 +4343,7 @@
                 escrever(
                     `Na evidência colhida às ${hora()},` + frase
                 );
+                showAlert();
             }
 
             const FRASE_ATENDIMENTO_ENCERRAMENTO = {
@@ -4358,19 +4384,61 @@
                 "Polícia Civil":
                     " foi constatado o término da interdição após a Polícia Civil deixar o local."
             };
+            const FRASE_ENCERRAMENTO_OUTROS = {
 
+                "Congestionamento":
+                    " foi identificado que o fluxo de veículos na rodovia foi normalizado.",
+
+                "Interdição Finalizada":
+                    " foi identificado que a interdição foi finalizada no local.",
+
+                "Limite de fim de fila":
+                    " foi identificado que o tráfego de veículos na praça de pedágio foi normalizado.",
+
+                "Obra":
+                    " foi identificado que a interdição de obra foi finalizada."
+
+            };
+            //"Congestionamento",
+                //"Interdição Finalizada",
+                //"Limite de fim de fila",
+                //"Obra"
             function gerarEncerramento() {
 
                 if (!en_atendimento.value) {
                     escrever('Selecione o atendimento para o encerramento.');
                     return;
                 }
+                let frase = '';
 
-                const frase = FRASE_ATENDIMENTO_ENCERRAMENTO[en_atendimento.value] || '';
+                // Caso NORMAL (não é Outros)
+                if (en_atendimento.value !== 'Outros') {
+                    frase = FRASE_ATENDIMENTO_ENCERRAMENTO[en_atendimento.value];
 
+                    if (!frase) {
+                        escrever('Frase de encerramento não configurada para este atendimento.');
+                        return;
+                    }
+                }
+
+                // Caso OUTROS
+                else {
+                    if (!en_sub.value) {
+                        escrever('Selecione a opção de "Outros" para o encerramento.');
+                        return;
+                    }
+
+                    frase = FRASE_ENCERRAMENTO_OUTROS[en_sub.value];
+
+                    if (!frase) {
+                        escrever('Frase de encerramento não configurada para esta opção.');
+                        return;
+                    }
+                }
                 escrever(
                     `Na evidência colhida às ${hora()},` + frase
                 );
+                showAlert();
             }
         </script>
 

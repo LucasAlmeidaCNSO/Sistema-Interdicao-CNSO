@@ -143,19 +143,41 @@
             #alert-ok:hover {
                 filter: brightness(1.06);
             }
+            .toast {
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%) translateY(-20px);
+                background: #323232;
+                color: #fff;
+                padding: 14px 22px;
+                border-radius: 6px;
+                font-size: 14px;
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.4s ease;
+                z-index: 9999;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            }
+
+            .toast.show {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            .toast.success {
+                background: #2e7d32;
+            }
+
+            .toast.error {
+                background: #c62828;
+            }
         </style>
     </head>
 
     <body>
 
-        <div id="alert-overlay" style="display:none;">
-            <div id="alert-modal" role="alertdialog" aria-modal="true" aria-labelledby="alert-title"
-                aria-describedby="alert-desc">
-                <h2 id="alert-title">Aviso</h2>
-                <p id="alert-desc"></p>
-                <button id="alert-ok">OK</button>
-            </div>
-        </div>
+        <div id="toast" class="toast"></div>
 
         <div class="container">
             <h1>Sistema de Interdição – CNSO</h1>
@@ -164,6 +186,9 @@
 
                 <!-- ================= ABERTURA ================= -->
                 <div class="card">
+                    <label>Atalho rápido</label>
+                    <input id="atalho" placeholder="Ex: 11101">
+                                     
                     <h2>Abertura da interdição</h2>
 
                     <label>Meio de Identificação</label>
@@ -189,12 +214,12 @@
                     <label>Concessionária</label>
                     <select id="ab_conc">
                         <option value="">-- Selecione --</option>
-                        <option>CONCEBRA</option>
                         <option>AUTOPISTA FERNÃO DIAS</option>
                         <option>AUTOPISTA FLUMINENSE</option>
                         <option>AUTOPISTA LITORAL SUL</option>
                         <option>AUTOPISTA PLANALTO SUL</option>
                         <option>AUTOPISTA RÉGIS BITTENCOURT</option>
+                        <option>CONCEBRA</option>
                         <option>ECOVIAS ARAGUAIA</option>
                         <option>ECOVIAS CAPIXABA</option>
                         <option>ECOVIAS CERRADO</option>
@@ -336,40 +361,21 @@
 
         <script>
 
-            function showAlert() {
-                const overlay = document.getElementById('alert-overlay');
-                const desc = document.getElementById('alert-desc');
-                const okBtn = document.getElementById('alert-ok');
+            function showToast(mensagem, tipo = 'success', tempo = 3000) {
+            const toast = document.getElementById('toast');
 
-                desc.innerHTML = "<br>Texto copiado para a Área de Transferência!<br><br>Desenvolvido por: Lucas Ferreira.";
-                overlay.style.display = 'grid';       // mostra
-                overlay.classList.add('show');
-                okBtn.focus();
+            toast.textContent = mensagem;
+            toast.className = `toast ${tipo}`;
 
-                function close() {
-                    overlay.classList.remove('show');
-                    overlay.style.display = 'none';
-                    document.removeEventListener('keydown', onKey);
-                    overlay.removeEventListener('click', onClickOutside);
-                }
-                function onKey(e) {
-                    if (e.key === 'Escape') close();
-                }
-                function onClickOutside(e) {
-                    const modal = document.getElementById('alert-modal');
-                    if (!modal.contains(e.target)) close();
-                }
+            // força reflow para reiniciar animação
+            void toast.offsetWidth;
 
-                okBtn.onclick = close;
-                document.addEventListener('keydown', onKey);
-                overlay.addEventListener('click', onClickOutside);
-            }
+            toast.classList.add('show');
 
-            // Exemplo de integração:
-            // function minhaFuncao(){
-            //   const msg = 'Processo concluído com sucesso!';
-            //   showAlert(msg);
-            // }
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, tempo);
+        }
 
             // ================= BASE CFTV (ESTILO C) =================
             const CONCEBRA = [
@@ -3963,7 +3969,31 @@
                 "BR101-SC-KM460+650",//CTFV-168
                 "BR101-SC-KM462+000",//CTFV-169
                 "BR101-SC-KM462+950",//CTFV-170
-                "BR101-SC-KM464+000"//CTFV-171
+                "BR101-SC-KM464+000",//CTFV-171
+                "BR101-SC-KM298+000",//CFTV-172
+                "BR101-SC-KM298+000",//CFTV-173
+                "BR101-SC-KM298+000",//CFTV-174
+                "BR101-SC-KM298+000",//CFTV-175
+                "BR101-SC-KM298+000",//CFTV-176
+                "BR101-SC-KM298+000",//CFTV-177
+                "BR101-SC-KM344+000",//CFTV-178
+                "BR101-SC-KM344+000",//CFTV-179
+                "BR101-SC-KM344+000",//CFTV-180
+                "BR101-SC-KM344+000",//CFTV-181
+                "BR101-SC-KM344+000",//CFTV-182
+                "BR101-SC-KM344+000",//CFTV-183
+                "BR101-SC-KM404+000",//CFTV-184
+                "BR101-SC-KM404+000",//CFTV-185
+                "BR101-SC-KM404+000",//CFTV-186
+                "BR101-SC-KM404+000",//CFTV-187
+                "BR101-SC-KM404+000",//CFTV-188
+                "BR101-SC-KM404+000",//CFTV-189
+                "BR101-SC-KM457+000",//CFTV-190
+                "BR101-SC-KM457+000",//CFTV-191
+                "BR101-SC-KM457+000",//CFTV-192
+                "BR101-SC-KM457+000",//CFTV-193
+                "BR101-SC-KM457+000",//CFTV-194
+                "BR101-SC-KM457+000"//CFTV-195         
             ];
             const VIA_MINEIRA = [
                 "",
@@ -4156,7 +4186,163 @@
             }
             protegerPrefixo(manual_br, 'BR');
             protegerPrefixo(manual_km, 'KM');
+
+            //================== ATALHOS =================
+            atalho.addEventListener('change', () => {
+                aplicarAtalho(atalho.value);
+            });
+            document.addEventListener('keydown', (e) => {
+                const modal = document.getElementById('modalAtalhos');
+                if (modal.style.display !== 'flex') return;
+
+                if (e.key === 'Escape' || e.key === 'Enter') {
+                    e.preventDefault();
+                    fecharAtalhos();
+                }
+            });
             // ================= FUNÇÕES =================
+
+            const MAP_MEIO = [
+                null,
+                "cftv",
+                "site",
+                "whatsapp",
+                "twitter"
+            ];
+
+            const MAP_CONC = [
+                null,
+                "AUTOPISTA FERNÃO DIAS",
+                "AUTOPISTA FLUMINENSE",
+                "AUTOPISTA LITORAL SUL",
+                "AUTOPISTA PLANALTO SUL",
+                "AUTOPISTA RÉGIS BITTENCOURT",
+                "ECOVIAS ARAGUAIA",
+                "ECOVIAS CAPIXABA",
+                "ECOVIAS CERRADO",
+                "ECOVIAS MINAS GOIÁS",
+                "ECOVIAS PONTE",
+                "ECOVIAS RIO MINAS",
+                "ECOVIAS SUL",
+                "ELOVIAS S.A.",
+                "EPR IGUAÇU",
+                "LITORAL PIONEIRO",
+                "NOVA 364",
+                "NOVA 381",
+                "NOVA ROTA DO OESTE",
+                "PANTANAL",
+                "PRVIAS (Lote 3)",
+                "RIOSP",
+                "ROTA DO AGRO",
+                "ROTA VERDE GOIÁS",
+                "TRANSBRASILIANA",
+                "VIA ARAUCÁRIA (Lote 1)",
+                "VIA BRASIL",
+                "VIA CRISTAIS",
+                "VIA COSTEIRA",
+                "VIA MINEIRA",
+                "VIASUL",
+                "WAY-262"
+            ];
+
+            const MAP_TIPO = [
+                null,
+                "animal_pista",
+                "atendimento_mecanico",
+                "atendimento_medico",
+                "atos_vandalismo",
+                "congestionamento",
+                "defeitos_via",
+                "falha_humana",
+                "fenomenos_natureza",
+                "incendio",
+                "limite_fila",
+                "manifestacao",
+                "obras",
+                "operacao_policial",
+                "transposicao"
+            ];
+
+            const MAP_SUB = [
+                null, // 0 = sem subcategoria
+                "Atropelamento de animal",
+                "Atropelamento de ciclista",
+                "Atropelamento de motociclista",
+                "Atropelamento de pedestre",
+                "Carreta em L",
+                "Capotamento",
+                "Choque",
+                "Colisão",
+                "Colisão frontal",
+                "Colisão lateral em sentido contrário",
+                "Colisão lateral no mesmo sentido",
+                "Colisão transversal",
+                "Colisão traseira",
+                "Engavetamento",
+                "Queda de carga",
+                "Queda de ciclista",
+                "Queda de moto",
+                "Saída de pista",
+                "Tombamento",
+                "Alagamento",
+                "Atoleiro",
+                "Deslizamento",
+                "Destruição",
+                "Erosão",
+                "Queda de árvore ou rocha",
+                "Rompimento ou ruptura",
+                "Transbordo",
+                "Trinca",
+                "Outros",
+                "Vegetação",
+                "Veículo",
+            ];
+
+            const MAP_ATENDIMENTO = [
+                null,
+                "Não Atendido",
+                "Apreensão de Animais",
+                "Atendimento de apoio",
+                "Atendimento Médico de Emergência",
+                "Socorro mecânico",
+                "Serviço de combate a incêndio",
+                "Guincho Particular",
+                "PRF",
+                "IML",
+                "Bombeiros",
+                "Polícia Civil"
+            ];
+
+            function aplicarAtalho(codigo) {
+                const cod = codigo.toString().padStart(5, '0').split('').map(Number);
+
+                const [m, c, t, s, a] = cod;
+
+                if (!MAP_MEIO[m] || !MAP_CONC[c] || !MAP_TIPO[t] || !MAP_ATENDIMENTO[a]) {
+                    escrever('Código de atalho inválido.');
+                    return;
+                }
+
+                // Meio de identificação
+                m_iden.value = MAP_MEIO[m];
+                m_iden.dispatchEvent(new Event('change'));
+
+                // Concessionária
+                ab_conc.value = MAP_CONC[c];
+
+                // Tipo
+                ab_tipo.value = MAP_TIPO[t];
+                ab_tipo.dispatchEvent(new Event('change'));
+
+                // Subcategoria (se houver)
+                if (s > 0) {
+                    ab_sub.value = MAP_SUB[s];
+                }
+
+                // Atendimento
+                ab_atendimento.value = MAP_ATENDIMENTO[a];
+            }
+
             const FRASE_ATENDIMENTO_ABERTURA = {
                 "Não Atendido":
                     " No momento, não havia atendimento da concessionária no local.",
@@ -4243,7 +4429,8 @@
                     `trecho sob concessão da ${ab_conc.value}.` +
                     atendimentoTxt
                 );
-                showAlert();
+                showToast('Texto Copiado Para a Área de Transferência!\n\nDesenvolvido por: Lucas Ferreira');
+                showToast('Desenvolvido por: Lucas Ferreira.');
             }
 
             const FRASE_ATENDIMENTO_ATUALIZACAO = {
@@ -4343,7 +4530,7 @@
                 escrever(
                     `Na evidência colhida às ${hora()},` + frase
                 );
-                showAlert();
+                showToast('Texto Copiado Para a Área de Transferência!\n\nDesenvolvido por: Lucas Ferreira');
             }
 
             const FRASE_ATENDIMENTO_ENCERRAMENTO = {
@@ -4399,11 +4586,13 @@
                     " foi identificado que a interdição de obra foi finalizada."
 
             };
+            
             //"Congestionamento",
                 //"Interdição Finalizada",
                 //"Limite de fim de fila",
                 //"Obra"
-            function gerarEncerramento() {
+            
+                function gerarEncerramento() {
 
                 if (!en_atendimento.value) {
                     escrever('Selecione o atendimento para o encerramento.');
@@ -4438,11 +4627,21 @@
                 escrever(
                     `Na evidência colhida às ${hora()},` + frase
                 );
-                showAlert();
+                showToast('Texto Copiado Para a Área de Transferência!');
             }
-        </script>
+                window.addEventListener('load', () => {
+                const campo = document.getElementById('atalho');
+                if (!campo) return;
 
+                campo.focus();
+                campo.classList.add('piscar');
 
+                // Remove o efeito após o primeiro uso
+                campo.addEventListener('input', () => {
+                    campo.classList.remove('piscar');
+                }, { once: true });
+            });
+       </script>
 
         <footer class="page-footer">
             <img src="LogoCNSO.png">

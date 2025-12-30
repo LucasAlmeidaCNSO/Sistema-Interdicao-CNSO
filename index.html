@@ -172,6 +172,17 @@
             .toast.error {
                 background: #c62828;
             }
+            .atalho-box {
+                display: flex;
+                gap: 6px;
+            }
+
+            .atalho {
+                width: 45px;
+                padding: 6px;
+                font-size: 16px;
+                text-align: center;
+            }
         </style>
     </head>
 
@@ -187,17 +198,27 @@
                 <!-- ================= ABERTURA ================= -->
                 <div class="card">
                     <label>Atalho rápido</label>
-                    <input id="atalho" placeholder="Ex: 11101">
-                                     
+                    <div class="atalho-box">
+                        <input type="text" maxlength="1" class="atalho" data-pos="0">
+                        <input type="text" maxlength="2" class="atalho" data-pos="1">
+                        <input type="text" maxlength="2" class="atalho" data-pos="2">
+                        <input type="text" maxlength="2" class="atalho" data-pos="3">
+                        <input type="text" maxlength="2" class="atalho" data-pos="4">
+                    </div>
+
+                    <small>
+                        Meio | Concessionária | Tipo | Sub | Atendimento
+                    </small>
+                                                         
                     <h2>Abertura da interdição</h2>
 
                     <label>Meio de Identificação</label>
                     <select id="m_iden">
                         <option value="">-- Selecione --</option>
-                        <option value="cftv">CFTV</option>
-                        <option value="site">Site</option>
-                        <option value="whatsapp">WhatsApp</option>
-                        <option value="twitter">X (Twitter)</option>
+                        <option value="cftv">1 - CFTV</option>
+                        <option value="site">2 - Site</option>
+                        <option value="whatsapp">3 - WhatsApp</option>
+                        <option value="twitter">4 - X (Twitter)</option>
                     </select>
 
                     <div id="manual_bloco" style="display:none">
@@ -212,41 +233,44 @@
                     </div>
 
                     <label>Concessionária</label>
+
+                    
                     <select id="ab_conc">
                         <option value="">-- Selecione --</option>
-                        <option>AUTOPISTA FERNÃO DIAS</option>
-                        <option>AUTOPISTA FLUMINENSE</option>
-                        <option>AUTOPISTA LITORAL SUL</option>
-                        <option>AUTOPISTA PLANALTO SUL</option>
-                        <option>AUTOPISTA RÉGIS BITTENCOURT</option>
-                        <option>CONCEBRA</option>
-                        <option>ECOVIAS ARAGUAIA</option>
-                        <option>ECOVIAS CAPIXABA</option>
-                        <option>ECOVIAS CERRADO</option>
-                        <option>ECOVIAS MINAS GOIÁS</option>
-                        <option>ECOVIAS PONTE</option>
-                        <option>ECOVIAS RIO MINAS</option>
-                        <option>ECOVIAS SUL</option>
-                        <option>ELOVIAS S.A.</option>
-                        <option>EPR IGUAÇU</option>
-                        <option>LITORAL PIONEIRO</option>
-                        <option>NOVA 364</option>
-                        <option>NOVA 381</option>
-                        <option>NOVA ROTA DO OESTE</option>
-                        <option>PANTANAL</option>
-                        <option>PRVIAS (Lote 3)</option>
-                        <option>RIOSP</option>
-                        <option>ROTA DO AGRO</option>
-                        <option>ROTA VERDE GOIÁS</option>
-                        <option>TRANSBRASILIANA</option>
-                        <option>VIA ARAUCÁRIA (Lote 1)</option>
-                        <option>VIA BRASIL</option>
-                        <option>VIA CRISTAIS</option>
-                        <option>VIA COSTEIRA</option>
-                        <option>VIA MINEIRA</option>
-                        <option>VIASUL</option>
-                        <option>WAY-262</option>
+                        <option value="AUTOPISTA FERNÃO DIAS">01 - AUTOPISTA FERNÃO DIAS</option>
+                        <option value="AUTOPISTA FLUMINENSE">02 - AUTOPISTA FLUMINENSE</option>
+                        <option value="AUTOPISTA LITORAL SUL">03 - AUTOPISTA LITORAL SUL</option>
+                        <option value="AUTOPISTA PLANALTO SUL">04 - AUTOPISTA PLANALTO SUL</option>
+                        <option value="AUTOPISTA RÉGIS BITTENCOURT">05 - AUTOPISTA RÉGIS BITTENCOURT</option>
+                        <option value="CONCEBRA">06 - CONCEBRA</option>
+                        <option value="ECOVIAS ARAGUAIA">07 - ECOVIAS ARAGUAIA</option>
+                        <option value="ECOVIAS CAPIXABA">08 - ECOVIAS CAPIXABA</option>
+                        <option value="ECOVIAS CERRADO">09 - ECOVIAS CERRADO</option>
+                        <option value="ECOVIAS MINAS GOIÁS">10 - ECOVIAS MINAS GOIÁS</option>
+                        <option value="ECOVIAS PONTE">11 - ECOVIAS PONTE</option>
+                        <option value="ECOVIAS RIO MINAS">12 - ECOVIAS RIO MINAS</option>
+                        <option value="ECOVIAS SUL">13 - ECOVIAS SUL</option>
+                        <option value="ELOVIAS S.A.">14 - ELOVIAS S.A.</option>
+                        <option value="EPR IGUAÇU">15 - EPR IGUAÇU</option>
+                        <option value="LITORAL PIONEIRO">16 - LITORAL PIONEIRO</option>
+                        <option value="NOVA 364">17 - NOVA 364</option>
+                        <option value="NOVA 381">18 - NOVA 381</option>
+                        <option value="NOVA ROTA DO OESTE">19 - NOVA ROTA DO OESTE</option>
+                        <option value="PANTANAL">20 - PANTANAL</option>
+                        <option value="PRVIAS (Lote 3)">21 - PRVIAS (Lote 3)</option>
+                        <option value="RIOSP">22 - RIOSP</option>
+                        <option value="ROTA DO AGRO">23 - ROTA DO AGRO</option>
+                        <option value="ROTA VERDE GOIÁS">24 - ROTA VERDE GOIÁS</option>
+                        <option value="TRANSBRASILIANA">25 - TRANSBRASILIANA</option>
+                        <option value="VIA ARAUCÁRIA (Lote 1)">26 - VIA ARAUCÁRIA (Lote 1)</option>
+                        <option value="VIA BRASIL">27 - VIA BRASIL</option>
+                        <option value="VIA CRISTAIS">28 - VIA CRISTAIS</option>
+                        <option value="VIA COSTEIRA">29 - VIA COSTEIRA</option>
+                        <option value="VIA MINEIRA">30 - VIA MINEIRA</option>
+                        <option value="VIASUL">31 - VIASUL</option>
+                        <option value="WAY-262">32 - WAY-262</option>
                     </select>
+
 
                     <div id="cftv_bloco">
                         <label>CFTV</label>
@@ -254,23 +278,27 @@
                     </div>
 
                     <label>Tipo de interdição</label>
+                    
+
                     <select id="ab_tipo">
                         <option value="">-- Selecione --</option>
-                        <option value="animal_pista">Animal na pista</option>
-                        <option value="atendimento_mecanico">Atendimento Mecânico</option>
-                        <option value="atendimento_medico">Atendimento Médico</option>
-                        <option value="atos_vandalismo">Atos de Vandalismo</option>
-                        <option value="congestionamento">Congestionamento</option>
-                        <option value="defeitos_via">Defeitos na via</option>
-                        <option value="falha_humana">Falha humana</option>
-                        <option value="fenomenos_natureza">Fenômenos da Natureza</option>
-                        <option value="incendio">Incêndio</option>
-                        <option value="limite_fila">Limite de Fim de Fila</option>
-                        <option value="manifestacao">Manifestação pacífica</option>
-                        <option value="obras">Obras e/ou manutenção</option>
-                        <option value="operacao_policial">Operação policial</option>
-                        <option value="transposicao">Transposição de Carga Especial</option>
+                        <option value="Animal na pista">01 - Animal na pista</option>
+                        <option value="Atendimento Mecânico">02 - Atendimento Mecânico</option>
+                        <option value="Atendimento Médico">03 - Atendimento Médico</option>
+                        <option value="Atos de Vandalismo">04 - Atos de Vandalismo</option>
+                        <option value="Congestionamento">05 - Congestionamento</option>
+                        <option value="Defeitos na via">06 - Defeitos na via</option>
+                        <option value="Falha_humana">07 - Falha humana</option>
+                        <option value="Fenômenos_da_Natureza">08 - Fenômenos da Natureza</option>
+                        <option value="Incêndio">09 - Incêndio</option>
+                        <option value="Limite de Fim de Fila">10 - Limite de Fim de Fila</option>
+                        <option value="Manifestação pacífica">11 - Manifestação pacífica</option>
+                        <option value="Obras e/ou manutenção">12 - Obras e/ou manutenção</option>
+                        <option value="Operação policial">13 - Operação policial</option>
+                        <option value="Transposição de Carga Especial">14 - Transposição de Carga Especial</option>
                     </select>
+
+
 
                     <div id="ab_sub_bloco" style="display:none">
                         <label>Subcategoria</label>
@@ -278,20 +306,24 @@
                     </div>
 
                     <label>Atendimento</label>
+                    
+                    
                     <select id="ab_atendimento">
                         <option value="">-- Selecione --</option>
-                        <option>Não Atendido</option>
-                        <option>Apreensão de Animais</option>
-                        <option>Atendimento de apoio</option>
-                        <option>Atendimento Médico de Emergência</option>
-                        <option>Socorro mecânico</option>
-                        <option>Serviço de combate a incêndio</option>
-                        <option>Guincho Particular</option>
-                        <option>PRF</option>
-                        <option>IML</option>
-                        <option>Bombeiros</option>
-                        <option>Polícia Civil</option>
+                        <option value="Não Atendido">01 - Não Atendido</option>
+                        <option value="Apreensão de Animais">02 - Apreensão de Animais</option>
+                        <option value="Atendimento de apoio">03 - Atendimento de apoio</option>
+                        <option value="Atendimento Médico de Emergência">04 - Atendimento Médico de Emergência</option>
+                        <option value="Socorro mecânico">05 - Socorro mecânico</option>
+                        <option value="Serviço de combate a incêndio">06 - Serviço de combate a incêndio</option>
+                        <option value="Guincho Particular">07 - Guincho Particular</option>
+                        <option value="PRF">08 - PRF</option>
+                        <option value="IML">09 - IML</option>
+                        <option value="Bombeiros">10 - Bombeiros</option>
+                        <option value="Polícia Civil">11 - Polícia Civil</option>
                     </select>
+
+
 
                     <button onclick="gerarAbertura()">Gerar Abertura</button>
                 </div>
@@ -301,22 +333,24 @@
                     <h2>Atualização</h2>
 
                     <label>Atendimento da Atualização</label>
+
                     <select id="at_atendimento">
                         <option value="">-- Selecione --</option>
-                        <option>Não Atendido</option>
-                        <option>Apreensão de Animais</option>
-                        <option>Atendimento de apoio</option>
-                        <option>Atendimento Médico de Emergência</option>
-                        <option>Socorro mecânico</option>
-                        <option>Veículo acoplado ao Socorro mecânico</option>
-                        <option>Serviço de combate a incêndio</option>
-                        <option>Guincho Particular</option>
-                        <option>PRF</option>
-                        <option>IML</option>
-                        <option>Bombeiros</option>
-                        <option>Polícia Civil</option>
-                        <option>Outros</option>
+                        <option value="Não Atendido">01 - Não Atendido</option>
+                        <option value="Apreensão de Animais">02 - Apreensão de Animais</option>
+                        <option value="Atendimento de apoio">03 - Atendimento de apoio</option>
+                        <option value="Atendimento Médico de Emergência">04 - Atendimento Médico de Emergência</option>
+                        <option value="Socorro mecânico">05 - Socorro mecânico</option>
+                        <option value="Veículo acoplado ao Socorro mecânico">06 - Veículo acoplado ao Socorro mecânico</option>
+                        <option value="Serviço de combate a incêndio">07 - Serviço de combate a incêndio</option>
+                        <option value="Guincho Particular">08 - Guincho Particular</option>
+                        <option value="PRF">09 - PRF</option>
+                        <option value="IML">10 - IML</option>
+                        <option value="Bombeiros">11 - Bombeiros</option>
+                        <option value="Polícia Civil">12 - Polícia Civil</option>
+                        <option value="Outros">13 - Outros</option>
                     </select>
+
 
                     <div id="at_sub_bloco" style="display:none">
                         <label>Outros</label>
@@ -332,20 +366,20 @@
 
                     <label>Atendimento do Encerramento</label>
                     <select id="en_atendimento">
-                        <option value="">-- Selecione --</option>
-                        <option>Não Atendido</option>
-                        <option>Apreensão de Animais</option>
-                        <option>Atendimento de apoio</option>
-                        <option>Atendimento Médico de Emergência</option>
-                        <option>Socorro mecânico</option>
-                        <option>Veículo acoplado ao Socorro mecânico</option>
-                        <option>Serviço de combate a incêndio</option>
-                        <option>Guincho Particular</option>
-                        <option>PRF</option>
-                        <option>IML</option>
-                        <option>Bombeiros</option>
-                        <option>Polícia Civil</option>
-                        <option>Outros</option>
+                    <option value="">-- Selecione --</option>
+                        <option value="Não Atendido">01 - Não Atendido</option>
+                        <option value="Apreensão de Animais">02 - Apreensão de Animais</option>
+                        <option value="Atendimento de apoio">03 - Atendimento de apoio</option>
+                        <option value="Atendimento Médico de Emergência">04 - Atendimento Médico de Emergência</option>
+                        <option value="Socorro mecânico">05 - Socorro mecânico</option>
+                        <option value="Veículo acoplado ao Socorro mecânico">06 - Veículo acoplado ao Socorro mecânico</option>
+                        <option value="Serviço de combate a incêndio">07 - Serviço de combate a incêndio</option>
+                        <option value="Guincho Particular">08 - Guincho Particular</option>
+                        <option value="PRF">09 - PRF</option>
+                        <option value="IML">10 - IML</option>
+                        <option value="Bombeiros">11 - Bombeiros</option>
+                        <option value="Polícia Civil">12 - Polícia Civil</option>
+                        <option value="Outros">13 - Outros</option>
                     </select>
 
                     <div id="en_sub_bloco" style="display:none">
@@ -4100,18 +4134,31 @@
                 return `${manual_br.value}-${manual_uf.value}-${manual_km.value}`;
             }
             // ================= SUBCATEGORIAS =================
+           const SUB_OFFSET = {
+                Falha_humana: 0,
+                Fenômenos_da_Natureza: 19,
+                Incêndio: 29
+            };
+
             ab_tipo.addEventListener('change', () => {
                 const t = ab_tipo.value;
 
                 ab_sub_bloco.style.display = SUB[t] ? 'block' : 'none';
-
                 ab_sub.innerHTML = '<option value="">-- Selecione --</option>';
 
-                if (SUB[t]) {
-                    SUB[t].forEach(s => {
-                        ab_sub.innerHTML += `<option>${s}</option>`;
-                    });
-                }
+                if (!SUB[t]) return;
+
+                const offset = SUB_OFFSET[t] ?? 0;
+
+                SUB[t].forEach((s, index) => {
+                    const numero = offset + index + 1;
+
+                    const opt = document.createElement('option');
+                    opt.value = s;              // valor limpo (sem número)
+                    opt.textContent = `${numero} - ${s}`; // visual numerado
+
+                    ab_sub.appendChild(opt);
+                });
             });
             at_atendimento.addEventListener('change', () => {
                 if (at_atendimento.value === 'Outros') {
@@ -4140,12 +4187,43 @@
                 }
             });
             const SUB = {
-                falha_humana: ["Atropelamento de animal", "Atropelamento de ciclista", "Atropelamento de motociclista",
-                    "Atropelamento de pedestre", "Carreta em L", "Capotamento", "Choque", "Colisão", "Colisão frontal",
-                    "Colisão lateral em sentido contrário", "Colisão lateral no mesmo sentido", "Colisão transversal",
-                    "Colisão traseira", "Engavetamento", "Queda de carga", "Queda de ciclista", "Queda de moto", "Saída de pista", "Tombamento"],
-                fenomenos_natureza: ["Alagamento", "Atoleiro", "Deslizamento", "Destruição", "Erosão", "Queda de árvore ou rocha", "Rompimento ou ruptura", "Transbordo", "Trinca", "Outros"],
-                incendio: ["Vegetação", "Veículo"]
+                Falha_humana: [
+                    "Atropelamento de animal",
+                    "Atropelamento de ciclista",
+                    "Atropelamento de motociclista",
+                    "Atropelamento de pedestre",
+                    "Carreta em L",
+                    "Capotamento",
+                    "Choque",
+                    "Colisão",
+                    "Colisão frontal",
+                    "Colisão lateral em sentido contrário",
+                    "Colisão lateral no mesmo sentido",
+                    "Colisão transversal",
+                    "Colisão traseira",
+                    "Engavetamento",
+                    "Queda de carga",
+                    "Queda de ciclista",
+                    "Queda de moto",
+                    "Saída de pista",
+                    "Tombamento"
+                ],
+                Fenômenos_da_Natureza: [
+                    "Alagamento",
+                    "Atoleiro",
+                    "Deslizamento",
+                    "Destruição",
+                    "Erosão",
+                    "Queda de árvore ou rocha",
+                    "Rompimento ou ruptura",
+                    "Transbordo",
+                    "Trinca",
+                    "Outros"
+                ],
+                Incêndio: [
+                    "Vegetação",
+                    "Veículo"
+                ]
             };
             const at_outros = [
                 "Aguardando retorno da concessionária",
@@ -4155,6 +4233,7 @@
                 "Obra segue em andamento",
                 "Veículo segue parado"
             ]
+           
             const en_outros = [
                 "Congestionamento",
                 "Interdição Finalizada",
@@ -4188,18 +4267,98 @@
             protegerPrefixo(manual_km, 'KM');
 
             //================== ATALHOS =================
-            atalho.addEventListener('change', () => {
-                aplicarAtalho(atalho.value);
-            });
-            document.addEventListener('keydown', (e) => {
-                const modal = document.getElementById('modalAtalhos');
-                if (modal.style.display !== 'flex') return;
+           const inputs = document.querySelectorAll('.atalho');
 
-                if (e.key === 'Escape' || e.key === 'Enter') {
-                    e.preventDefault();
-                    fecharAtalhos();
-                }
+            /* Controle de digitação */
+            inputs.forEach((input, index) => {
+
+                input.addEventListener('input', () => {
+                    // Apenas números
+                    input.value = input.value.replace(/\D/g, '');
+
+                    // Avança automaticamente
+                    if (input.value.length >= input.maxLength) {
+                        input.value = input.value.slice(0, input.maxLength);
+                        if (inputs[index + 1]) {
+                            inputs[index + 1].focus();
+                        }
+                    }
+                });
+
+                input.addEventListener('keydown', (e) => {
+                    // Voltar com backspace
+                    if (e.key === 'Backspace' && input.value === '' && inputs[index - 1]) {
+                        inputs[index - 1].focus();
+                    }
+
+                    // Enter aplica o atalho
+                    if (e.key === 'Enter') {
+                        aplicarAtalhoPorCampos();
+                    }
+                });
             });
+
+            /* Lê o código completo */
+            function lerCodigoAtalho() {
+                return Array.from(inputs).map(input =>
+                    input.value.padStart(input.maxLength, '0')
+                );
+            }
+
+            /* Aplica o código */
+            function aplicarAtalhoPorCampos() {
+                const partes = lerCodigoAtalho();
+
+                if (partes.some(p => p.trim() === '')) {
+                    escrever('Preencha corretamente o código de atalho.');
+                    return;
+                }
+
+                aplicarAtalho(partes); // ← ESTAVA FALTANDO ISSO
+            }
+
+            function aplicarAtalho(partes) {
+                const [m, c, t, s, a] = partes.map(Number);
+
+                if (!MAP_MEIO[m]) {
+                    escrever('Código inválido: Meio de identificação.');
+                    return;
+                }
+                if (!MAP_CONC[c]) {
+                    escrever('Código inválido: Concessionária.');
+                    return;
+                }
+                if (!MAP_TIPO[t]) {
+                    escrever('Código inválido: Tipo.');
+                    return;
+                }
+                if (!MAP_ATENDIMENTO[a]) {
+                    escrever('Código inválido: Atendimento.');
+                    return;
+                }
+
+                // Meio
+                m_iden.value = MAP_MEIO[m];
+                m_iden.dispatchEvent(new Event('change'));
+
+                // Concessionária
+                ab_conc.value = MAP_CONC[c];
+
+                // Tipo
+                ab_tipo.value = MAP_TIPO[t];
+                ab_tipo.dispatchEvent(new Event('change'));
+
+                // Subcategoria
+                if (s > 0 && MAP_SUB[s]) {
+                    ab_sub.value = MAP_SUB[s];
+                }
+
+                // Atendimento
+                ab_atendimento.value = MAP_ATENDIMENTO[a];
+
+                showToast('Atalho aplicado com sucesso.');
+            }
+           
             // ================= FUNÇÕES =================
 
             const MAP_MEIO = [
@@ -4217,6 +4376,7 @@
                 "AUTOPISTA LITORAL SUL",
                 "AUTOPISTA PLANALTO SUL",
                 "AUTOPISTA RÉGIS BITTENCOURT",
+                "CONCEBRA",
                 "ECOVIAS ARAGUAIA",
                 "ECOVIAS CAPIXABA",
                 "ECOVIAS CERRADO",
@@ -4247,20 +4407,20 @@
 
             const MAP_TIPO = [
                 null,
-                "animal_pista",
-                "atendimento_mecanico",
-                "atendimento_medico",
-                "atos_vandalismo",
-                "congestionamento",
-                "defeitos_via",
-                "falha_humana",
-                "fenomenos_natureza",
-                "incendio",
-                "limite_fila",
-                "manifestacao",
-                "obras",
-                "operacao_policial",
-                "transposicao"
+                "Animal na pista",
+                "Atendimento Mecânico",
+                "Atendimento Médico",
+                "Atos de Vandalismo",
+                "Congestionamento",
+                "Defeitos na via",
+                "Falha_humana",
+                "Fenômenos_da_Natureza",
+                "Incêndio",
+                "Limite de Fim de Fila",
+                "Manifestação pacífica",
+                "Obras e/ou manutenção",
+                "Operação policial",
+                "Transposição de Carga Especial"
             ];
 
             const MAP_SUB = [
@@ -4297,7 +4457,7 @@
                 "Vegetação",
                 "Veículo",
             ];
-
+            
             const MAP_ATENDIMENTO = [
                 null,
                 "Não Atendido",
@@ -4313,35 +4473,7 @@
                 "Polícia Civil"
             ];
 
-            function aplicarAtalho(codigo) {
-                const cod = codigo.toString().padStart(5, '0').split('').map(Number);
-
-                const [m, c, t, s, a] = cod;
-
-                if (!MAP_MEIO[m] || !MAP_CONC[c] || !MAP_TIPO[t] || !MAP_ATENDIMENTO[a]) {
-                    escrever('Código de atalho inválido.');
-                    return;
-                }
-
-                // Meio de identificação
-                m_iden.value = MAP_MEIO[m];
-                m_iden.dispatchEvent(new Event('change'));
-
-                // Concessionária
-                ab_conc.value = MAP_CONC[c];
-
-                // Tipo
-                ab_tipo.value = MAP_TIPO[t];
-                ab_tipo.dispatchEvent(new Event('change'));
-
-                // Subcategoria (se houver)
-                if (s > 0) {
-                    ab_sub.value = MAP_SUB[s];
-                }
-
-                // Atendimento
-                ab_atendimento.value = MAP_ATENDIMENTO[a];
-            }
+            
 
             const FRASE_ATENDIMENTO_ABERTURA = {
                 "Não Atendido":
@@ -4408,7 +4540,7 @@
                     escrever('Preencha corretamente os campos manuais de identificação da rodovia.');
                     return;
                 }
-                const tipoTxt = ab_tipo.options[ab_tipo.selectedIndex].text;
+                const tipoTxt = ab_tipo.value.replace(/_/g, ' ').toUpperCase();
 
                 const detalhe = SUB[ab_tipo.value] && ab_sub.value
                     ? `${tipoTxt.toUpperCase()} - ${ab_sub.value.toUpperCase()}`
@@ -4421,7 +4553,7 @@
                     atendimentoTxt = FRASE_ATENDIMENTO_ABERTURA[atendimentoEl.value] || '';
                 }
 
-                const meioTxt = m_iden.options[m_iden.selectedIndex].text.toUpperCase();
+                const meioTxt = m_iden.value.toUpperCase();
 
                 escrever(
                     `Na evidência colhida às ${hora()}, foi identificado via ${meioTxt} da concessionária, ` +

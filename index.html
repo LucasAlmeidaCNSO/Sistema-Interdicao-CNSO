@@ -205,6 +205,34 @@
                 color: #00e5ff;
                 font-weight: 600;
             }
+            .modal {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.6);
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+            }
+
+            .modal-box {
+                background: #fff;
+                padding: 20px;
+                width: 320px;
+                border-radius: 8px;
+            }
+
+            .modal-box input,
+            .modal-box select {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .modal-actions {
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+            }
         </style>
     </head>
 
@@ -347,9 +375,10 @@
                         <option value="Polícia Civil">11 - Polícia Civil</option>
                     </select>
 
-
-
                     <button onclick="gerarAbertura()">Gerar Abertura</button>
+                    <button type="button" onclick="abrirPopupWhatsapp()">
+                        Gerar WhatsApp
+                    </button>
                 </div>
 
                 <!-- ================= ATUALIZAÇÃO ================= -->
@@ -415,6 +444,39 @@
                 </div>
             </div>
             <div class="output" id="saida"></div>
+                <div id="popupWhatsapp" class="modal">
+                <div class="modal-box">
+                    <h3>Dados para WhatsApp</h3>
+
+                    <label>Cidade</label>
+                    <input type="text" id="wp_cidade">
+
+                    <label>Sentido</label>
+                    <select id="wp_sentido">
+                        <option value="">-- Selecione --</option>
+                        <option>Norte</option>
+                        <option>Sul</option>
+                        <option>Leste</option>
+                        <option>Oeste</option>
+                        <option>Centro</option>
+                    </select>
+
+                    <label>ID da Interdição</label>
+                    <input type="text" id="wp_id" inputmode="numeric">
+                    <label>Tipo de Bloqueio</label>
+                        <select id="wp_bloqueio">
+                            <option value="">-- Selecione --</option>
+                            <option value="Interdição Total 🔴">Interdição Total 🔴</option>
+                            <option value="Interdição Parcial 🟡">Interdição Parcial 🟡</option>
+                            <option value="Interdição Liberada 🟢">Interdição Liberada 🟢</option>
+                        </select>
+                    <div class="modal-actions">
+                        <button onclick="fecharPopupWhatsapp()">Cancelar</button>
+                        <button onclick="gerarWhatsapp()">Gerar</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <script>
@@ -4291,7 +4353,7 @@
             protegerPrefixo(manual_km, 'KM');
 
             //================== ATALHOS =================
-           // ================== ELEMENTOS ==================
+
                 document.addEventListener('DOMContentLoaded', () => {
 
                     document.querySelectorAll('.atalho').forEach(input => {
@@ -4501,7 +4563,127 @@
                     document.querySelector('button[onclick="gerarAbertura()"]').click();
                 }
 
-               
+            //====================== GERAR WHATSAPP ========================
+            
+            function abrirPopupWhatsapp() {
+                document.getElementById('popupWhatsapp').style.display = 'flex';
+                document.getElementById('wp_cidade').focus();
+            }
+
+            function fecharPopupWhatsapp() {
+                document.getElementById('popupWhatsapp').style.display = 'none';
+            }
+            function gerarWhatsapp() {
+                const bloqueioEl = document.getElementById('wp_bloqueio');
+                const cidadeEl = document.getElementById('wp_cidade');
+                const sentidoEl = document.getElementById('wp_sentido');
+                const idEl = document.getElementById('wp_id');
+
+                if (!bloqueioEl.value) {
+                    escrever('Selecione o tipo de bloqueio.');
+                    return;
+                }
+                if (!cidadeEl || !sentidoEl || !idEl) {
+                    escrever('Erro interno: campos do WhatsApp não encontrados.');
+                    return;
+                }
+                const km = obterTrechoRodovia();
+
+                const meioTxt = m_iden.options[m_iden.selectedIndex].text.replace(/^\d+\s-\s/, '');
+                const ehCftv = meioTxt.toUpperCase().includes('CFTV');
+
+                if (!ab_conc.value || !m_iden.value) {
+                    escrever('Preencha corretamente os campos de abertura.');
+                    return;
+                }
+
+                if (!ehCftv && !ab_tipo.value) {
+                    escrever('Preencha corretamente o Tipo de Interdição.');
+                    return;
+                }
+
+             
+
+                if (!cidadeEl.value.trim() || !sentidoEl.value || !idEl.value.trim()) {
+                    escrever('Preencha Cidade, Sentido e ID da Interdição.');
+                    return;
+                }
+
+                const agora = new Date();
+                const data = agora.toLocaleDateString('pt-BR');
+                const horaTxt = agora.toLocaleTimeString('pt-BR', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) + 'min';
+
+                let detalhe = '';
+
+                if (ab_tipo && ab_tipo.value) {
+                    const tipoTxt =
+                        ab_tipo.options[ab_tipo.selectedIndex]?.text
+                            ?.replace(/^\d+\s-\s/, '') || '';
+
+                    if (SUB[ab_tipo.value] && ab_sub && ab_sub.value) {
+                        detalhe = `${tipoTxt.toUpperCase()} - ${ab_sub.value.toUpperCase()}`;
+                    } else {
+                        detalhe = tipoTxt.toUpperCase();
+                    }
+                } else {
+                    detalhe = 'INTERDIÇÃO';
+                }
+
+                const cidade = cidadeEl.value;
+                const uf = document.getElementById('uf')?.value || '';
+                const idInterdicao = idEl.value;
+                const sentido = sentidoEl.value;
+                const ehWhatsapp = meioTxt.toUpperCase().includes('WHATSAPP');
+                const blocoCCO = ehWhatsapp
+                    ? `
+                *Contato com o CCO:*
+
+                Na evidência colhida às ${horaTxt}, foi identificado, via ${meioTxt.toUpperCase()} uma interdição de ${detalhe.toLowerCase()}, na rodovia ${km}, trecho sob concessão da ${ab_conc.value}.
+                `
+                    : '';
+                const status = bloqueioEl.value;
+                let mensagem = 
+                    `⚠ Novo Ponto de Interdição: ${ab_conc.value} - ${data} - ${horaTxt} - ${detalhe}.
+
+                    Cidade: ${cidade}${uf ? ' - ' + uf : ''}.
+                    Sentido: ${sentido}.
+                    ${km}.`;
+
+                    mensagem += `
+
+                    Na evidência colhida às ${horaTxt}, foi identificado, via ${meioTxt.toUpperCase()} uma interdição de ${detalhe.toLowerCase()}, na rodovia ${km}, trecho sob concessão da ${ab_conc.value}.`;
+
+                    if (ehWhatsapp) {
+                        mensagem = mensagem.replace(
+                            '\n\nNa evidência',
+                            '\n\n*Contato com o CCO:*\n\nNa evidência'
+                        );
+                    }
+
+                    mensagem += `
+
+                    Protocolo n°: Não há.
+
+                    Registro de Interdição: ID${idInterdicao}.
+
+                    ${status}
+
+                    Fonte de informação: ${meioTxt}.`;
+
+
+                navigator.clipboard.writeText(mensagem);
+
+                showToast(
+                    'Mensagem do WhatsApp copiada para a Área de Transferência!\n\nDesenvolvido por: Lucas Ferreira'
+                );
+
+                fecharPopupWhatsapp();
+                escrever(mensagem);
+            }
+
            
             // ================= FUNÇÕES =================
 

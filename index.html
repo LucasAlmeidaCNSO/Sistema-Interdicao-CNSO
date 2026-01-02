@@ -173,7 +173,8 @@
                 background: #c62828;
             }
             .atalho-box {
-                display: flex;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, 45px);
                 gap: 6px;
             }
 
@@ -182,6 +183,27 @@
                 padding: 6px;
                 font-size: 16px;
                 text-align: center;
+            }
+            .atalho-labels {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, 45px);
+                gap: 6px;
+                margin-top: 4px;
+                font-size: 11px;
+                color: #888;
+            }
+
+            .atalho-labels span {
+                text-align: center;
+                line-height: 1.1;
+                white-space: normal;
+                word-break: break-word;
+                transition: all 0.2s ease;
+            }
+
+            .atalho-labels span.active {
+                color: #00e5ff;
+                font-weight: 600;
             }
         </style>
     </head>
@@ -199,26 +221,28 @@
                 <div class="card">
                     <label>Atalho rápido</label>
                     <div class="atalho-box">
-                        <input type="text" maxlength="1" class="atalho" data-pos="0">
-                        <input type="text" maxlength="2" class="atalho" data-pos="1">
-                        <input type="text" maxlength="2" class="atalho" data-pos="2">
-                        <input type="text" maxlength="2" class="atalho" data-pos="3">
-                        <input type="text" maxlength="2" class="atalho" data-pos="4">
-                    </div>
+                    <input type="text" maxlength="1" class="atalho" data-role="meio">
+                    <input type="text" maxlength="2" class="atalho" data-role="conc">
+                    <input type="text" maxlength="2" class="atalho" data-role="tipo">
+                    <input type="text" maxlength="2" class="atalho" data-role="atendimento">
+                </div>
 
-                    <small>
-                        Meio | Concessionária | Tipo | Sub | Atendimento
-                    </small>
+                <div class="atalho-labels">
+                    <span data-role="meio">Meio</span>
+                    <span data-role="conc">Concessionária</span>
+                    <span data-role="tipo">Tipo</span>
+                    <span data-role="atendimento">Atendimento</span>
+                </div>
                                                          
                     <h2>Abertura da interdição</h2>
 
                     <label>Meio de Identificação</label>
                     <select id="m_iden">
                         <option value="">-- Selecione --</option>
-                        <option value="cftv">1 - CFTV</option>
-                        <option value="site">2 - Site</option>
-                        <option value="whatsapp">3 - WhatsApp</option>
-                        <option value="twitter">4 - X (Twitter)</option>
+                        <option value="cftv">01 - CFTV</option>
+                        <option value="site">02 - Site</option>
+                        <option value="whatsapp">03 - WhatsApp</option>
+                        <option value="twitter">04 - X (Twitter)</option>
                     </select>
 
                     <div id="manual_bloco" style="display:none">
@@ -4151,11 +4175,11 @@
                 const offset = SUB_OFFSET[t] ?? 0;
 
                 SUB[t].forEach((s, index) => {
-                    const numero = offset + index + 1;
+                    const numero = String(offset + index + 1).padStart(2, '0');
 
                     const opt = document.createElement('option');
-                    opt.value = s;              // valor limpo (sem número)
-                    opt.textContent = `${numero} - ${s}`; // visual numerado
+                    opt.value = s;                         // valor limpo
+                    opt.textContent = `${numero} - ${s}`;  // visual 01, 02, 03
 
                     ab_sub.appendChild(opt);
                 });
@@ -4267,97 +4291,217 @@
             protegerPrefixo(manual_km, 'KM');
 
             //================== ATALHOS =================
-           const inputs = document.querySelectorAll('.atalho');
+           // ================== ELEMENTOS ==================
+                document.addEventListener('DOMContentLoaded', () => {
 
-            /* Controle de digitação */
-            inputs.forEach((input, index) => {
+                    document.querySelectorAll('.atalho').forEach(input => {
+                        adicionarEventos(input);
+                    });
 
-                input.addEventListener('input', () => {
-                    // Apenas números
-                    input.value = input.value.replace(/\D/g, '');
+                    const primeiroAtalho = document.querySelector('.atalho');
+                    if (primeiroAtalho) {
+                        primeiroAtalho.focus();
+                    }
 
-                    // Avança automaticamente
-                    if (input.value.length >= input.maxLength) {
-                        input.value = input.value.slice(0, input.maxLength);
-                        if (inputs[index + 1]) {
-                            inputs[index + 1].focus();
+                });
+
+
+                function adicionarEventos(input) {
+
+                    input.addEventListener('input', () => {
+                        // Apenas números
+                        input.value = input.value.replace(/\D/g, '');
+
+                        // Avança respeitando a ordem REAL do DOM
+                        if (input.value.length === input.maxLength) {
+                            const campos = Array.from(document.querySelectorAll('.atalho'));
+                            const idx = campos.indexOf(input);
+                            const proximo = campos[idx + 1];
+
+                            if (proximo) {
+                                proximo.focus();
+                            }
                         }
+
+                        atualizarEstrutura();
+                    });
+
+                    input.addEventListener('keydown', (e) => {
+                        const campos = Array.from(document.querySelectorAll('.atalho'));
+                        const idx = campos.indexOf(input);
+
+                        // Voltar com Backspace
+                        if (e.key === 'Backspace' && input.value === '') {
+                            const anterior = campos[idx - 1];
+                            if (anterior) {
+                                anterior.focus();
+                            }
+                        }
+
+                        // Enter aplica o atalho
+                        if (e.key === 'Enter') {
+                            aplicarAtalhoPorCampos();
+                        }
+                    });
+                }
+                function criarCampo(role, labelText, index) {
+                    const box = document.querySelector('.atalho-box');
+                    const labels = document.querySelector('.atalho-labels');
+
+                    // INPUT
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.maxLength = 2;
+                    input.className = 'atalho';
+                    input.dataset.role = role;
+
+                    // LABEL
+                    const label = document.createElement('span');
+                    label.textContent = labelText;
+                    label.dataset.role = role + '-label';
+
+                    // Insere respeitando a ordem visual
+                    box.insertBefore(input, box.children[index] || null);
+                    labels.insertBefore(label, labels.children[index] || null);
+
+                    // Aplica os mesmos listeners dos demais campos
+                    adicionarEventos(input);
+                }
+
+                // ================== LABELS DINÂMICOS ==================
+                function removerCampo(role) {
+                    document.querySelector(`.atalho[data-role="${role}"]`)?.remove();
+                    document.querySelector(`.atalho-labels span[data-role="${role}-label"]`)?.remove();
+                }
+                function atualizarEstrutura() {
+                    const box = document.querySelector('.atalho-box');
+                    const labels = document.querySelector('.atalho-labels');
+
+                    const meio = Number(document.querySelector('[data-role="meio"]').value);
+                    const tipo = Number(document.querySelector('[data-role="tipo"]').value);
+
+                    // ===== CFTV =====
+                    let cftvInput = document.querySelector('[data-role="cftv"]');
+                    let cftvLabel = document.querySelector('[data-role="cftv-label"]');
+
+                    if (meio === 1 && !cftvInput) {
+                        criarCampo('cftv', 'CFTV', 2);
                     }
-                });
+                    if (meio !== 1 && cftvInput) {
+                        removerCampo('cftv');
+                    }
+                    function getIndexTipo() {
+                        const campos = Array.from(document.querySelectorAll('.atalho'));
+                        return campos.findIndex(i => i.dataset.role === 'tipo');
+                    }
+                    // ===== SUBCATEGORIA =====
+                    let subInput = document.querySelector('[data-role="sub"]');
 
-                input.addEventListener('keydown', (e) => {
-                    // Voltar com backspace
-                    if (e.key === 'Backspace' && input.value === '' && inputs[index - 1]) {
-                        inputs[index - 1].focus();
+                    if ([7, 8, 9].includes(tipo) && !subInput) {
+                        criarCampo('sub', 'Subcategoria', getIndexTipo() + 1);
                     }
 
-                    // Enter aplica o atalho
-                    if (e.key === 'Enter') {
-                        aplicarAtalhoPorCampos();
+                    if (![7, 8, 9].includes(tipo) && subInput) {
+                        removerCampo('sub');
                     }
-                });
-            });
+                }
+            
 
-            /* Lê o código completo */
-            function lerCodigoAtalho() {
-                return Array.from(inputs).map(input =>
-                    input.value.padStart(input.maxLength, '0')
-                );
-            }
 
-            /* Aplica o código */
-            function aplicarAtalhoPorCampos() {
-                const partes = lerCodigoAtalho();
+                // ================== LEITURA DOS CAMPOS ==================
+                function aplicarAtalhoPorCampos() {
+                    const valores = Array.from(document.querySelectorAll('.atalho'))
+                        .map(i => i.value)
+                        .filter(v => v !== '');
 
-                if (partes.some(p => p.trim() === '')) {
-                    escrever('Preencha corretamente o código de atalho.');
-                    return;
+                    let idx = 0;
+
+                    const meio = Number(valores[idx++]);
+                    const conc = Number(valores[idx++]);
+
+                    let cftv = null;
+                    let tipo = null;
+                    let sub = null;
+                    let atendimento = null;
+
+                    if (meio === 1) {
+                        cftv = Number(valores[idx++]);
+                    }
+
+                    tipo = Number(valores[idx++]);
+
+                    if ([7, 8, 9].includes(tipo)) {
+                        sub = Number(valores[idx++]);
+                    }
+
+                    atendimento = Number(valores[idx++]);
+
+                    aplicarAtalho({
+                        meio,
+                        conc,
+                        cftv,
+                        tipo,
+                        sub,
+                        atendimento
+                    });
                 }
 
-                aplicarAtalho(partes); // ← ESTAVA FALTANDO ISSO
-            }
+                // ================== APLICAÇÃO FINAL ==================
+                function aplicarAtalho(dados) {
 
-            function aplicarAtalho(partes) {
-                const [m, c, t, s, a] = partes.map(Number);
+                    const { meio, conc, cftv, tipo, sub, atendimento } = dados;
 
-                if (!MAP_MEIO[m]) {
-                    escrever('Código inválido: Meio de identificação.');
-                    return;
+                    if (!MAP_MEIO[meio]) {
+                        showToast('Meio inválido', 'error');
+                        return;
+                    }
+
+                    m_iden.value = MAP_MEIO[meio];
+                    m_iden.dispatchEvent(new Event('change'));
+
+                    if (!MAP_CONC[conc]) {
+                        showToast('Concessionária inválida', 'error');
+                        return;
+                    }
+
+                    ab_conc.value = MAP_CONC[conc];
+
+                    if (meio === 1) {
+                        if (!cftv) {
+                            showToast('CFTV não informado', 'error');
+                            return;
+                        }
+                        ab_cftv.value = cftv;
+                    }
+
+                    if (!MAP_TIPO[tipo]) {
+                        showToast('Tipo inválido', 'error');
+                        return;
+                    }
+
+                    ab_tipo.value = MAP_TIPO[tipo];
+                    ab_tipo.dispatchEvent(new Event('change'));
+
+                    if ([7, 8, 9].includes(tipo)) {
+                        if (!MAP_SUB[sub]) {
+                            showToast('Subcategoria inválida', 'error');
+                            return;
+                        }
+                        ab_sub.value = MAP_SUB[sub];
+                    }
+
+                    if (!MAP_ATENDIMENTO[atendimento]) {
+                        showToast('Atendimento inválido', 'error');
+                        return;
+                    }
+
+                    ab_atendimento.value = MAP_ATENDIMENTO[atendimento];
+
+                    showToast('Atalho aplicado com sucesso');
+                    document.querySelector('button[onclick="gerarAbertura()"]').click();
                 }
-                if (!MAP_CONC[c]) {
-                    escrever('Código inválido: Concessionária.');
-                    return;
-                }
-                if (!MAP_TIPO[t]) {
-                    escrever('Código inválido: Tipo.');
-                    return;
-                }
-                if (!MAP_ATENDIMENTO[a]) {
-                    escrever('Código inválido: Atendimento.');
-                    return;
-                }
 
-                // Meio
-                m_iden.value = MAP_MEIO[m];
-                m_iden.dispatchEvent(new Event('change'));
-
-                // Concessionária
-                ab_conc.value = MAP_CONC[c];
-
-                // Tipo
-                ab_tipo.value = MAP_TIPO[t];
-                ab_tipo.dispatchEvent(new Event('change'));
-
-                // Subcategoria
-                if (s > 0 && MAP_SUB[s]) {
-                    ab_sub.value = MAP_SUB[s];
-                }
-
-                // Atendimento
-                ab_atendimento.value = MAP_ATENDIMENTO[a];
-
-                showToast('Atalho aplicado com sucesso.');
-            }
+               
            
             // ================= FUNÇÕES =================
 

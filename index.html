@@ -451,7 +451,11 @@
                     <h3>Dados para WhatsApp</h3>
 
                     <label>Cidade</label>
-                    <input type="text" id="wp_cidade">
+                    <input
+                        type="text"
+                        id="wp_cidade"
+                        oninput="capitalizarCidade(this)"
+                    >
 
                     <label>Sentido</label>
                     <select id="wp_sentido">
@@ -4579,7 +4583,11 @@
             }
 
             //====================== GERAR WHATSAPP ========================
-            
+            function capitalizarCidade(input) {
+                input.value = input.value
+                    .toLowerCase()
+                    .replace(/\b\w/g, letra => letra.toUpperCase());
+            }
             function abrirPopupWhatsapp() {
                 document.getElementById('popupWhatsapp').style.display = 'flex';
                 document.getElementById('wp_cidade').focus();

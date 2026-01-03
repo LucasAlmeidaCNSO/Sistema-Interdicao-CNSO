@@ -4631,7 +4631,7 @@
                 } else {
                     detalhe = 'INTERDIÇÃO';
                 }
-
+                
                 const cidade = cidadeEl.value;
                 const uf = document.getElementById('uf')?.value || '';
                 const idInterdicao = idEl.value;
@@ -4645,35 +4645,36 @@
                 `
                     : '';
                 const status = bloqueioEl.value;
-                let mensagem = 
-                    `⚠ Novo Ponto de Interdição: ${ab_conc.value} - ${data} - ${horaTxt} - ${detalhe}.
+                let mensagem =
+                `⚠ Novo Ponto de Interdição: ${ab_conc.value} - ${data} - ${horaTxt} - ${detalhe}.
 
-                    Cidade: ${cidade}${uf ? ' - ' + uf : ''}.
-                    Sentido: ${sentido}.
-                    ${km}.`;
+                Cidade: ${cidade}${uf ? ' - ' + uf : ''}.
+                Sentido: ${sentido}.
+                ${km}.`;
 
-                    mensagem += `
+                mensagem += `
 
-                    Na evidência colhida às ${horaTxt}, foi identificado, via ${meioTxt.toUpperCase()} uma interdição de ${detalhe.toLowerCase()}, na rodovia ${km}, trecho sob concessão da ${ab_conc.value}.`;
+                Na evidência colhida às ${horaTxt}, foi identificado, via ${meioTxt.toUpperCase()} uma interdição de ${detalhe.toLowerCase()}, na rodovia ${km}, trecho sob concessão da ${ab_conc.value}.`;
 
-                    if (ehWhatsapp) {
-                        mensagem = mensagem.replace(
-                            '\n\nNa evidência',
-                            '\n\n*Contato com o CCO:*\n\nNa evidência'
-                        );
-                    }
+                if (ehWhatsapp) {
+                    mensagem = mensagem.replace(
+                        '\n\nNa evidência',
+                        '\n\n*Contato com o CCO:*\n\nNa evidência'
+                    );
+                }
 
-                    mensagem += `
+                mensagem += `
 
-                    Protocolo n°: Não há.
+                Protocolo n°: Não há.
 
-                    Registro de Interdição: ID${idInterdicao}.
+                Registro de Interdição: ID${idInterdicao}.
 
-                    ${status}
+                ${status}
 
-                    Fonte de informação: ${meioTxt}.`;
+                Fonte de informação: ${meioTxt}.`;
 
 
+                mensagem = mensagem.replace(/\n[ \t]+/g, '\n');
                 navigator.clipboard.writeText(mensagem);
 
                 showToast(

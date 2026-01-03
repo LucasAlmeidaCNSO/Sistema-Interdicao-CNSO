@@ -379,6 +379,7 @@
                     <button type="button" onclick="abrirPopupWhatsapp()">
                         Gerar WhatsApp
                     </button>
+                    <button onclick="gerarTextoImagem()">Gerar Texto Imagem</button>
                 </div>
 
                 <!-- ================= ATUALIZAÇÃO ================= -->
@@ -411,6 +412,7 @@
                     </div>
 
                     <button onclick="gerarAtualizacao()">Gerar Atualização</button>
+                
                 </div>
 
                 <!-- ================= ENCERRAMENTO ================= -->
@@ -4562,6 +4564,19 @@
                     showToast('Atalho aplicado com sucesso');
                     document.querySelector('button[onclick="gerarAbertura()"]').click();
                 }
+            //====================== GERAR TEXTO IMAGEM ========================
+            function gerarTextoImagem() {
+                const agora = new Date();
+
+                const dia = String(agora.getDate()).padStart(2, '0');
+                const mes = String(agora.getMonth() + 1).padStart(2, '0');
+                const hora = String(agora.getHours()).padStart(2, '0');
+                const minuto = String(agora.getMinutes()).padStart(2, '0');
+
+                const texto = `${dia}-${mes}_${hora}h${minuto}min`;
+
+                escrever(texto);
+            }
 
             //====================== GERAR WHATSAPP ========================
             

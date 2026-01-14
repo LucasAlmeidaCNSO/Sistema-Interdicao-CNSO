@@ -233,6 +233,45 @@
                 justify-content: flex-end;
                 gap: 10px;
             }
+            .iframe-container {
+                position: relative;
+                width: 100%;
+                padding-bottom: 68%; /* ajusta proporção */
+            }
+
+            .iframe-container iframe {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+            .grafico-equipe h2 {
+                text-align: center;
+            }
+            .grafico-equipe {
+                background-color: #0b1c2d;
+                padding: 40px 20px;
+                border-radius: 12px;
+                }
+
+                .grafico-equipe h2 {
+                text-align: center;
+                color: #ffffff;
+                margin-bottom: 20px;
+                }
+
+                .iframe-wrapper {
+                background-color: #0b1c2d;
+                padding: 12px;
+                border-radius: 12px;
+                }
+
+                .iframe-wrapper iframe {
+                width: 100%;
+                height: 1100px;
+                border: none;
+                border-radius: 8px;
+            }
         </style>
     </head>
 
@@ -5123,6 +5162,17 @@
             });
        </script>
 
+       <section class="grafico-equipe">
+            <h2>Desempenho das Equipes (Últimos 2 dias)</h2>
+
+            <div class="iframe-wrapper">
+                <iframe
+                title="Desempenho_Equipes"
+                src="https://app.powerbi.com/reportEmbed?reportId=3fc9fdf9-6ca5-4e8b-a36d-d7dd0b7817af&autoAuth=true&ctid=87bbe9de-a892-4cde-a466-88f982fbc490"
+                allowfullscreen>
+                </iframe>
+            </div>
+            </section>
         <footer class="page-footer">
             <img src="LogoCNSO.png">
         </footer>

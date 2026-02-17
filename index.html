@@ -380,7 +380,7 @@
                         <option value="Atos de Vandalismo">04 - Atos de Vandalismo</option>
                         <option value="Congestionamento">05 - Congestionamento</option>
                         <option value="Defeitos na via">06 - Defeitos na via</option>
-                        <option value="Falha_humana">07 - Falha humana</option>
+                        <option value="Acidente">07 - Acidente</option>
                         <option value="Fenômenos_da_Natureza">08 - Fenômenos da Natureza</option>
                         <option value="Incêndio">09 - Incêndio</option>
                         <option value="Limite de Fim de Fila">10 - Limite de Fim de Fila</option>
@@ -4266,7 +4266,7 @@
             }
             // ================= SUBCATEGORIAS =================
            const SUB_OFFSET = {
-                Falha_humana: 0,
+                Acidente: 0,
                 Fenômenos_da_Natureza: 19,
                 Incêndio: 29
             };
@@ -4318,7 +4318,7 @@
                 }
             });
             const SUB = {
-                Falha_humana: [
+                Acidente: [
                     "Atropelamento de animal",
                     "Atropelamento de ciclista",
                     "Atropelamento de motociclista",
@@ -4703,7 +4703,7 @@
                     ? `
                 *Contato com o CCO:*
 
-                Na evidência colhida às ${horaTxt}, foi identificado, via ${meioTxt.toUpperCase()} uma interdição de ${detalhe.toLowerCase()}, na rodovia ${km}, trecho sob concessão da ${ab_conc.value}.
+                Na evidência colhida às ${horaTxt}, foi identificado, via ${meioTxt.toUpperCase()} uma interdição devido a ${detalhe.toLowerCase()}, na rodovia ${km}, trecho sob concessão da ${ab_conc.value}.
                 `
                     : '';
                 const status = bloqueioEl.value;
@@ -4716,7 +4716,7 @@
 
                 mensagem += `
 
-                Na evidência colhida às ${horaTxt}, foi identificado, via ${meioTxt.toUpperCase()} uma interdição de ${detalhe.toLowerCase()}, na rodovia ${km}, trecho sob concessão da ${ab_conc.value}.`;
+                Na evidência colhida às ${horaTxt}, foi identificado, via ${meioTxt.toUpperCase()} uma interdição devido a ${detalhe.toLowerCase()}, na rodovia ${km}, trecho sob concessão da ${ab_conc.value}.`;
 
                 if (ehWhatsapp) {
                     mensagem = mensagem.replace(
@@ -4802,7 +4802,7 @@
                 "Atos de Vandalismo",
                 "Congestionamento",
                 "Defeitos na via",
-                "Falha_humana",
+                "Acidente",
                 "Fenômenos_da_Natureza",
                 "Incêndio",
                 "Limite de Fim de Fila",
@@ -4946,7 +4946,7 @@
 
                 escrever(
                     `Na evidência colhida às ${hora()}, foi identificado via ${meioTxt} da concessionária, ` +
-                    `uma interdição de ${detalhe}, na rodovia ${km}, ` +
+                    `uma interdição devido a ${detalhe}, na rodovia ${km}, ` +
                     `trecho sob concessão da ${ab_conc.value}.` +
                     atendimentoTxt
                 );
